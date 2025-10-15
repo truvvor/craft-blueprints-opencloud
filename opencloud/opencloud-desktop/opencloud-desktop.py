@@ -24,7 +24,7 @@ class subinfo(info.infoclass):
         self.defaultTarget = "main"
 
         self.description = "OpenCloud Desktop"
-        self.displayName =  "OpenCloud Beta" if self.options.dynamic.buildBeta else "OpenCloud"
+        self.displayName = "OpenCloud Beta" if self.options.dynamic.buildBeta else "OpenCloud"
         self.webpage = "https://github.com/opencloud-eu/desktop"
 
     def setDependencies(self):
@@ -82,7 +82,6 @@ class Package(CMakePackageBase):
         if self.subinfo.options.dynamic.buildNumber:
             self.subinfo.options.configure.args += [f"-DMIRALL_VERSION_BUILD={self.subinfo.options.dynamic.buildNumber}"]
         self.subinfo.options.configure.args += [f"-DBETA_CHANNEL_BUILD={self.subinfo.options.dynamic.buildBeta.asOnOff}"]
-
 
     @property
     def applicationExecutable(self):
@@ -235,11 +234,13 @@ class Package(CMakePackageBase):
                 self.defines["startup_task"] = str(exePath)
 
                 self.defines["additional_xmlns"] = """xmlns:desktop3="http://schemas.microsoft.com/appx/manifest/desktop/windows10/3"\n"""
-                self.defines["extensions"] = """<desktop3:Extension Category="windows.cloudFiles"><desktop3:CloudFiles></desktop3:CloudFiles></desktop3:Extension>"""
+                self.defines[
+                    "extensions"
+                ] = """<desktop3:Extension Category="windows.cloudFiles"><desktop3:CloudFiles></desktop3:CloudFiles></desktop3:Extension>"""
             else:
                 self.defines["version"] = ver
 
-        self.addExecutableFilter(r"(bin|libexec)/(?!(" + self.applicationExecutable + r"|snoretoast)).*")
+        self.addExecutableFilter(r"(bin|libexec)/(?!(" + self.applicationExecutable + r"|snoretoast|openvfsfuse)).*")
         self.ignoredPackages += ["binary/mysql"]
         if not CraftCore.compiler.isLinux:
             self.ignoredPackages += ["libs/dbus"]
