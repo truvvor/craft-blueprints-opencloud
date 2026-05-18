@@ -20,7 +20,7 @@ class subinfo(info.infoclass):
         self.options.dynamic.registerOption("buildBeta", False)
 
     def setTargets(self):
-        self.svnTargets["main"] = "file:///C:/CraftBuild/download/git/opencloud/gk-storage-desktop|main"
+        self.svnTargets["main"] = "https://github.com/truvvor/gk-storage-desktop.git|gk-branding"
         self.defaultTarget = "main"
 
         self.description = "GK-Storage Desktop"
